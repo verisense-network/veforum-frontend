@@ -19,6 +19,10 @@ const theme = createTheme({
       secondary: '#898989'
     }
   },
+  components:{
+    MuiOutlinedInput:{
+    }
+  }
 });
 
 export default theme;
