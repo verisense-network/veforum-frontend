@@ -79,7 +79,7 @@ export default function Post(){
 
   return (
     <Box className='space-y-4'>
-      {keys(values).filter(item => ['id', 'author_id', 'author_nickname', 'subspace_id']).map(item => {
+      {keys(values).filter(item => !['id', 'author_id', 'author_nickname', 'subspace_id'].includes(item)).map(item => {
         return (
           <OutlinedInput
             key={item}
