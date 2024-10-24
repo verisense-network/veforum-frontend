@@ -43,8 +43,8 @@ export default function Post(){
       id: BigInt(values.id),
       'author_id':BigInt(values.author_id),
       subspace_id: BigInt(values.subspace_id),
-      created_time: BigInt(values.created_time),
-      updated_time: BigInt(values.updated_time),
+      created_time: BigInt(Date.now()),
+      updated_time: BigInt(Date.now()),
     }
     try{
       const decodeValue = u8aToHex(ArticleSechma.encode(params))
@@ -54,7 +54,7 @@ export default function Post(){
     }
   },[values])
 
-  console.log('codec value', codecValue, codecValue.slice(2))
+  console.log('codec value', codecValue, codecValue.slice(2), JSON.stringify([nodeKey, 'add_article', codecValue.slice(2)]))
 
   const signMessage = async () => {
     const signRaw = wallet.signer?.signRaw;
@@ -75,14 +75,15 @@ export default function Post(){
   }
   
 
-  const sendPost = (params) => {
+  const sendPost = () => {
     // todo
-    console.log('params', params)
+    const postParmas = [nodeKey, 'add_article', codecValue.slice(2)];
+    console.log('params', postParmas)
   }
 
   return (
     <Box className='space-y-4'>
-      {keys(values).filter(item => !['id', 'author_id', 'author_nickname', 'subspace_id'].includes(item)).map(item => {
+      {keys(values).filter(item => !['id', 'author_id', 'author_nickname', 'subspace_id', 'created_time', 'updated_time'].includes(item)).map(item => {
         return (
           <OutlinedInput
             key={item}
@@ -99,7 +100,7 @@ export default function Post(){
           />
         )
       })}
-      <Button onClick={signMessage} variant='contained' fullWidth size='large'>Sign message</Button>
+      <Button onClick={sendPost} variant='contained' fullWidth size='large'>Sign message</Button>
     </Box>
   )
 }
