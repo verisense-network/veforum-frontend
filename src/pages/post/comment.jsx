@@ -6,6 +6,10 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import {keys} from 'lodash'
+import {useMemo} from 'react';
+import {CommentSechma} from '../../constants/scaleCodec';
+import {u8aToHex} from '@polkadot/util';
+import {nodeKey} from '../../constants';
 
 export default function Comment(){
   const {address, wallet} = useWalletContext()
@@ -28,6 +32,24 @@ export default function Comment(){
 
   const {values} = formik;
 
+  const codecValue = useMemo(() => {
+    const params = {
+      ...values,
+      id: BigInt(values.id),
+      author_id:BigInt(values.author_id),
+      article_id: BigInt(values.subspace_id),
+      created_time: BigInt(values.created_time),
+    }
+    try{
+      const decodeValue = u8aToHex(CommentSechma.encode(params))
+      return decodeValue
+    }catch(error){
+      return ''
+    }
+  },[values])
+
+  console.log('codec value', codecValue)
+
   const signMessage = async () => {
     const signRaw = wallet.signer?.signRaw;
     console.log('sign message', signRaw)
@@ -38,7 +60,8 @@ export default function Comment(){
         type: 'bytes',
       })
       console.log('signature', signature)
-      sendPost({...values, account_address: address, msg: 'message', signature})
+      const params = [nodeKey, 'asdd_Comment', codecValue]
+      sendPost({...params, account_address: address, msg: 'message', signature})
       return signature
     } else {
       return ''

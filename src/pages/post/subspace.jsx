@@ -6,6 +6,10 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import {keys} from 'lodash'
+import {SubspaceSechma} from '../../constants/scaleCodec';
+import {u8aToHex} from '@polkadot/util'
+import {useMemo} from 'react';
+import {nodeKey} from '../../constants';
 
 export default function Subspace(){
   const {address, wallet} = useWalletContext()
@@ -27,6 +31,21 @@ export default function Subspace(){
   });
 
   const {values} = formik;
+  const codecValue = useMemo(() => {
+    const params = {
+      ...values,
+      id: BigInt(values.id),
+      created_time: BigInt(values.created_time),
+    }
+    try{
+      const decodeValue = u8aToHex(SubspaceSechma.encode(params))
+      return decodeValue
+    }catch(error){
+      return ''
+    }
+  },[values])
+
+  console.log('codec value', codecValue)
 
   const signMessage = async () => {
     const signRaw = wallet.signer?.signRaw;
@@ -38,7 +57,8 @@ export default function Subspace(){
         type: 'bytes',
       })
       console.log('signature', signature)
-      sendPost({...values, account_address: address, msg: 'message', signature})
+      const params = [nodeKey, 'add_article', codecValue]
+      sendPost({...params, account_address: address, msg: 'message', signature})
       return signature
     } else {
       return ''

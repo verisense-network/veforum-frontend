@@ -21,6 +21,9 @@ const theme = createTheme({
   },
   components:{
     MuiOutlinedInput:{
+      styleOverrides:{
+        
+      }
     }
   }
 });

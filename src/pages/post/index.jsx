@@ -9,8 +9,10 @@ import {keys} from 'lodash'
 import {ArticleSechma} from '../../constants/scaleCodec';
 import {u8aToHex} from '@polkadot/util'
 import {useMemo} from 'react';
+import {nodeKey} from '../../constants';
 
 
+//"5FsXfPrUDqq6abYccExCTUxyzjYaaYTr5utLx2wwdBv1m8R8", "add_article", "01000000000000002441727469636c652031ac54686973206973207468652061727469636c6520312c20746869732069732061206c6f6e6720746578742e6400000000000000244d696b652054616e6701000000000000000000000000d202964900000000d202964900000000"
 export default function Post(){
   const {address, wallet} = useWalletContext()
   const formik = useFormik({
@@ -64,7 +66,8 @@ export default function Post(){
         type: 'bytes',
       })
       console.log('signature', signature)
-      sendPost({...values, account_address: address, msg: 'message', signature})
+      const params = [nodeKey, 'add_article', codecValue]
+      sendPost({...params, account_address: address, msg: 'message', signature})
       return signature
     } else {
       return ''
