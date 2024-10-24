@@ -20,7 +20,7 @@ const App = () => {
       return;
     }
     const documents = [
-      { id: 1, title: 'Carolize', genres: ['Romance', 'Drama'] },
+      { id: 1, title: 'linlinlin', genres: ['Romance', 'Drama'] },
       { id: 2, title: 'Wonder Woman', genres: ['Action', 'Adventure'] },
       { id: 3, title: 'Life of Pi', genres: ['Adventure', 'Drama'] },
       { id: 4, title: 'Mad Max: Fury Road', genres: ['Adventure', 'Science Fiction'] },
@@ -34,7 +34,7 @@ const App = () => {
     initClient()
   },[])
 
- 
+
   return (
     <div>
       

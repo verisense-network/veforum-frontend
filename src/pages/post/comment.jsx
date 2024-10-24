@@ -11,13 +11,14 @@ export default function Comment(){
   const {address, wallet} = useWalletContext()
   const formik = useFormik({
     initialValues: {
-      content: '',
-      author_id: '',
-      author_nickname: '',
-      post_id: '',
-      parent_comment_id: '',
-      is_public: true,
-
+      id:BigInt(0),
+      content:'',
+      author_id:BigInt(0),
+      author_nickname:'',
+      article_id:BigInt(0),
+      status:0,
+      weight:0,
+      created_time:BigInt(0),
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -59,7 +60,7 @@ export default function Comment(){
             fullWidth
             id={item}
             name={item}
-            placeholders={item}
+            placeholder={item}
             value={formik.values[item]}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
