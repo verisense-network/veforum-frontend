@@ -54,7 +54,7 @@ export default function Post(){
     }
   },[values])
 
-  console.log('codec value', codecValue)
+  console.log('codec value', codecValue, codecValue.slice(2))
 
   const signMessage = async () => {
     const signRaw = wallet.signer?.signRaw;
@@ -66,7 +66,7 @@ export default function Post(){
         type: 'bytes',
       })
       console.log('signature', signature)
-      const params = [nodeKey, 'add_article', codecValue]
+      const params = [nodeKey, 'add_article', codecValue.slice(2)]
       sendPost({...params, account_address: address, msg: 'message', signature})
       return signature
     } else {

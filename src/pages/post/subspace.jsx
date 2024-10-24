@@ -57,7 +57,7 @@ export default function Subspace(){
         type: 'bytes',
       })
       console.log('signature', signature)
-      const params = [nodeKey, 'add_article', codecValue]
+      const params = [nodeKey, 'add_article', codecValue.slice(2)]
       sendPost({...params, account_address: address, msg: 'message', signature})
       return signature
     } else {
