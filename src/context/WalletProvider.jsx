@@ -11,7 +11,7 @@ export const WalletContext = createContext({
 });
 
 export default function WalletProvider(props) {
-	const [address, setAddress] = useState('')
+	const [address, setAddress] = useState(localStorage.getItem('address'))
 	const [addresses, setAddresses] = useState([''])
 	const [wallet, setWallet] = useState(null)
 	const [selectAddressOpen, setSelectAddressOpen] = useState(false)
@@ -30,6 +30,7 @@ export default function WalletProvider(props) {
 
 	const handleSelectAddress = (address) => {
 		setAddress(address);
+		localStorage.setItem('address', address);
 		setSelectAddressOpen(false)
 	}
 

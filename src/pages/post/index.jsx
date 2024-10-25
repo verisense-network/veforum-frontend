@@ -117,7 +117,7 @@ export default function Post(){
             />
           )
         })}
-        <Button onClick={sendPost} variant='contained' fullWidth size='large'>Sign message</Button>
+        <Button onClick={sendPost} variant='contained' size='large'>Post</Button>
       </Box>
     </Container>
   )

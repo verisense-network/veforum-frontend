@@ -16,7 +16,6 @@ import {toast} from 'react-toastify';
 
 export default function Subspace(){
   const {address, wallet} = useWalletContext()
-  const {id= '' } = useParams();
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
@@ -83,8 +82,8 @@ export default function Subspace(){
         params: postParmas
       })
     }).then(resp => {
-      toast.success('评论成功！')
-      navigate(`/detail/${id}`)
+      toast.success('创建成功！')
+      navigate(`/`)
     })
   }
 
@@ -107,7 +106,7 @@ export default function Subspace(){
             />
           )
         })}
-        <Button onClick={sendPost} variant='contained' fullWidth size='large'>Sign message</Button>
+        <Button onClick={sendPost} variant='contained' size='large'>Create</Button>
       </Box>
     </Container>
   )
