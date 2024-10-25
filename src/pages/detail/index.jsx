@@ -138,7 +138,7 @@ const Comment = ({id = ''}) => {
         ) : (
           <Box className='flex justify-center flex-col items-center space-y-3'>
             <Typography>暂无评论</Typography>
-            <Button size='small' component={Link} variant='contained' to={`/comment/${id}`}>写评论</Button>
+            <Button size='small' variant='contained' onClick={() => setAddComment(true)}>写评论</Button>
           </Box>
         )}
       </Box>

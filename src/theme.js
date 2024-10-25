@@ -66,9 +66,11 @@ const theme = createTheme({
         }
       },
     },
-    MuiOutlinedInput:{
+    MuiInputBase:{
       styleOverrides:{
-        
+        root: {
+          background: '#232323'
+        }
       }
     },
     MuiButton:{
