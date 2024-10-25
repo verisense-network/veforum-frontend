@@ -17,6 +17,8 @@
     "@mui/styled-engine-sc": "^6.1.4",
     "@polkadot/api": "^14.0.1",
     "@polkadot/util": "^13.1.1",
+    "algoliasearch": "5.9.0",
+    "dayjs": "^1.11.13",
     "formik": "^2.4.6",
     "google-auth-library": "^9.14.2",
     "instantsearch.css": "^8.5.1",
