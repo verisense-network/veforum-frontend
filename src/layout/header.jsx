@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box'
+import Paper from '@mui/material/Paper'
 import {useWalletContext} from '../context/WalletProvider'
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import {Link, NavLink} from 'react-router-dom';
 import Chip from '@mui/material/Chip';
 
@@ -9,7 +9,7 @@ import Chip from '@mui/material/Chip';
 export default function Header(){
   const {handleConnect, address, disconnected} = useWalletContext()
   return (
-    <Box className="flex justify-between items-center p-3 px-5">
+    <Paper className="flex justify-between items-center p-3 px-5">
       <Box>
         <Box className='flex items-center space-x-1' component={Link} to='/'>
           <img src="https://rustcc.cn/img/rust-logo.svg" width="40px"/>
@@ -29,6 +29,6 @@ export default function Header(){
           <Button onClick={handleConnect} variant='contained' color='primary'>Connect wallet</Button>
         )}
       </Box>
-    </Box>
+    </Paper>
   )
 }

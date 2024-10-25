@@ -43,3 +43,53 @@ export const links = [
     url: "https://rustcc.cn/article?id=471b7ca6-aa2e-4ea5-b692-6757adc4778a"
   },
 ]
+
+export const partners = [
+  {
+    label:'泰晓科技',
+    url: 'https://tinylab.org'
+  },
+  {
+    label:'Ruby China',
+    url: 'https://ruby-china.org.org'
+  },
+  {
+    label:'电鸭远程社区',
+    url: 'https://eleduck.com'
+  },
+  {
+    label:'IPFS中文社区',
+    url: 'https://ipfs.cn'
+  },
+]
+
+export const helpfuls = [
+  {
+    label:'迅达云',
+    url: 'https://rustcc.cn/acknowledgement'
+  },
+  {
+    label:'赛贝',
+    url: 'https://rustcc.cn/acknowledgement'
+  },
+  {
+    label:'LongHash',
+    url: 'https://rustcc.cn/acknowledgement'
+  },
+]
+
+
+export const powerBy = [
+  {
+    label: 'Forustm',
+    url: 'https://github.com/daogangtang/forustm'
+  },
+  {
+    label: 'Rusoda',
+    url: 'https://github.com/daogangtang/rusoda'
+  },
+  {
+    label: 'Sapper',
+    url: 'https://github.com/sappworks/sapper'
+  },
+]

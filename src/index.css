@@ -18,7 +18,7 @@ body {
 }
 
 a:hover{
-  font-weight: 600
+  opacity: 0.8
 }
 
 h1 {

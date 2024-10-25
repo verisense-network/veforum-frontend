@@ -18,6 +18,10 @@ const theme = createTheme({
     text:{
       primary: '#000',
       secondary: '#898989'
+    },
+    background:{
+      default: '#FFF',
+      paper: '#f5f5f5'
     }
   },
   typography: {
@@ -77,6 +81,13 @@ const theme = createTheme({
       styleOverrides:{
         root: {
           fontWegith: 600
+        }
+      }
+    },
+    MuiPaper:{
+      styleOverrides:{
+        root: {
+          boxShadow: 'unset'
         }
       }
     }
