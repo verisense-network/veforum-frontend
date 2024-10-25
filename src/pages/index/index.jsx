@@ -44,7 +44,7 @@ const App = () => {
           <Box className='flex flex-col space-y-1'>
             {links.map(item => {
               return (
-                <Typography key={item.url} component={Link} to={item.url}>{item.label}</Typography>
+                <Typography className="hover:text-secondary" key={item.url} component={Link} to={item.url}>{item.label}</Typography>
               )
             })}
           </Box>
@@ -57,7 +57,7 @@ const App = () => {
 const Hit = ({ hit:item }) => {
   return (
     <Box key={item?.id} className='space-y-2 w-full' component={Link} to={`/detail/${item.id}`}>
-      <Typography noWrap variant='h3'>{item.title}</Typography>
+      <Typography noWrap variant='h4' fontWeight={600}>{item.title}</Typography>
       <Box className='w-full flex items-center justify-between'>
         <Box className='flex items-center space-x-2'>
           {item?.author_nickname ? (
@@ -65,7 +65,7 @@ const Hit = ({ hit:item }) => {
           ) : null}
           <Typography color='text.secondary'>{dayjs(item.created_time).format('YYYY-MM-DD HH:mm:ss')}</Typography>
         </Box>
-        <Typography component={Link} color='primary' to={item?.ext_link}>{item?.ext_link}</Typography>
+        <Typography component={Link} color='secondary' to={item?.ext_link}>{item?.ext_link}</Typography>
       </Box>
       <StyleDetail>{item.content}</StyleDetail>
     </Box>

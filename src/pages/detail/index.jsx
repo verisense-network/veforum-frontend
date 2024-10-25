@@ -117,42 +117,31 @@ const Comment = ({id = ''}) => {
     <Box className='space-y-4'>
       <Box className='flex justify-between items-center'>
         <Typography variant='body1'>评论区</Typography>
-        <Button size='small' component={Link} to={`/comment/${id}`}>写评论</Button>
+        <Button size='small' color='secondary' component={Link} to={`/comment/${id}`}>写评论</Button>
       </Box>
       {!comments.length ? (
         <Divider />
       ) : null}
-      <InstantSearch
-        indexName="comment"
-        searchClient={client}
-      >
-        <Configure 
-          hitsPerPage={20} 
-        />
-        <Box className='space-y-6'>
-          {comments.length ? (
-            <InfiniteHits
-              showPrevious={false}
-              transformItems={(allComments) => {
-                return allComments.filter(item => item.author_id === Number(id))
-              }}
-              hitComponent={Hit}
-            />
-          ) : (
-            <Box className='flex justify-center flex-col items-center space-y-3'>
-              <Typography>暂无评论</Typography>
-              <Button size='small' component={Link} variant='contained' to={`/comment/${id}`}>写评论</Button>
-            </Box>
-          )}
-        </Box>
-      </InstantSearch>
+      <Box className='space-y-3'>
+        {comments.length ? (
+          comments.map(comment => {
+            return <Hit hit={comment}/>
+          })
+    
+        ) : (
+          <Box className='flex justify-center flex-col items-center space-y-3'>
+            <Typography>暂无评论</Typography>
+            <Button size='small' component={Link} variant='contained' to={`/comment/${id}`}>写评论</Button>
+          </Box>
+        )}
+      </Box>
     </Box>
   )
 }
 
 const Hit = ({ hit:item }) => {
   return (
-    <Box key={item?.id} className='space-y-2 w-full'>
+    <Box key={item?.id} className='space-y-2 w-full border border-t-1 border-b-0 border-r-0 border-l-0 pt-3'>
       <Typography noWrap variant='h3'>{item?.title}</Typography>
       <Box className='w-full flex items-center justify-between'>
         <Box className='flex items-center space-x-2'>
