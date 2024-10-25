@@ -148,7 +148,7 @@ const Comment = ({id = ''}) => {
 
 const Hit = ({ hit:item }) => {
   return (
-    <Box key={item?.id} className='space-y-2 w-full border border-t-1 border-b-0 border-r-0 border-l-0 pt-3'>
+    <Box key={item?.id} className='space-y-2 w-full border border-t-1 border-b-0 border-r-0 border-l-0 pt-3 border-divider'>
       <Typography noWrap variant='h3'>{item?.title}</Typography>
       <Box className='w-full flex items-center justify-between'>
         <Box className='flex items-center space-x-2'>

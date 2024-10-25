@@ -1,0 +1,26 @@
+.ais-SearchBox-form{
+  background: #232323 !important;
+}
+.ais-SearchBox-input{
+  background: #232323 !important;
+  border: 1px solid #000;
+  outline:unset;
+  color: #FFF;
+}
+.ais-InfiniteHits, .ais-InfiniteHits-list, .ais-InfiniteHits-item{
+  background: #232323 !important;
+}
+.ais-InfiniteHits-item:hover{
+  background: #111 !important;
+}
+.ais-InfiniteHits-loadMore{
+  background:#232323 !important;
+  border: 0;
+  color: #565656;
+  display: none;
+  
+}
+.ais-InfiniteHits-loadMore:disabled {
+  background:#111 !important;
+  color: #565656;
+} 
