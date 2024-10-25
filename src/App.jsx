@@ -9,6 +9,8 @@ const App = () => {
       <Routes>
         <Route path='/' element={<Index />} />
         <Route path='/post' element={<Post />} />
+        <Route path='/comment' element={<Post />} />
+        <Route path='/subspace' element={<Post />} />
       </Routes>
     </Layout>
   )

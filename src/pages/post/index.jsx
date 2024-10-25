@@ -2,6 +2,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { stringToHex } from '@polkadot/util'
 import {useWalletContext} from '../../context/WalletProvider';
+import {useNodeContext} from '../../context/NodeProvider';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -15,6 +16,8 @@ import {nodeKey} from '../../constants';
 //"5FsXfPrUDqq6abYccExCTUxyzjYaaYTr5utLx2wwdBv1m8R8", "add_article", "01000000000000002441727469636c652031ac54686973206973207468652061727469636c6520312c20746869732069732061206c6f6e6720746578742e6400000000000000244d696b652054616e6701000000000000000000000000d202964900000000d202964900000000"
 export default function Post(){
   const {address, wallet} = useWalletContext()
+  const {api} = useNodeContext();
+  console.log('api',api)
   const formik = useFormik({
     initialValues: {
       'id':BigInt(1),
@@ -73,12 +76,23 @@ export default function Post(){
       return ''
     }
   }
-  
 
-  const sendPost = () => {
-    // todo
+  const sendPost = async () => {
     const postParmas = [nodeKey, 'add_article', codecValue.slice(2)];
-    console.log('params', postParmas)
+    console.log('values', values, postParmas)
+    const result = await fetch('http://localhost:9944', {
+      method:'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body:JSON.stringify({
+        "jsonrpc":"2.0", 
+        "id": "whatever",
+        method:'nucleus_post',
+        params:postParmas
+      })
+    })
+    console.log('result', result);
   }
 
   return (

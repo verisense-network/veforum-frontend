@@ -60,7 +60,7 @@ export default function Comment(){
         type: 'bytes',
       })
       console.log('signature', signature)
-      const params = [nodeKey, 'asdd_Comment', codecValue.slice(2)]
+      const params = [nodeKey, 'add_Comment', codecValue.slice(2)]
       sendPost({...params, account_address: address, msg: 'message', signature})
       return signature
     } else {
