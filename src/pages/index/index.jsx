@@ -7,30 +7,50 @@ import Box from '@mui/material/Box';
 import {Link} from 'react-router-dom'
 import {useArticleContext} from '../../context/ArticlesContext';
 import {styled} from '@mui/material/styles';
+import SubspaceList from './subspace-list';
+import {links} from '../../constants';
 
 const App = () => {
   const {client} = useArticleContext()
   return (
-    <div>
-      <InstantSearch
-        indexName="article"
-        searchClient={client}
-      >
-        <Configure 
-          hitsPerPage={50} 
-          //filters="author_nickname=lindawu"
-        />
-        <Box className='space-y-6'>
-          <Box className='flex items-center justify-between'>
-            <SearchBox />
-          </Box>
-          <InfiniteHits
-            showPrevious={false}
-            hitComponent={Hit}
+    <Box className='grid grid-cols-5 gap-6'>
+      <Box className='col-span-4'>
+        <InstantSearch
+          indexName="article"
+          searchClient={client}
+        >
+          <Configure 
+            hitsPerPage={50} 
+            //filters="author_nickname=lindawu"
           />
+          <Box className='space-y-6'>
+            <Box className='flex items-center justify-between'>
+              <SearchBox className='w-1/2'/>
+            </Box>
+            <InfiniteHits
+              showPrevious={false}
+              hitComponent={Hit}
+            />
+          </Box>
+        </InstantSearch>
+      </Box>
+      <Box className='space-y-6'>
+        <Box className='space-y-4'>
+          <Typography varaint='h5' fontWeight={600} color='primary'>板块分类</Typography>
+          <SubspaceList />
         </Box>
-      </InstantSearch>
-    </div>
+        <Box className='space-y-4'>
+          <Typography varaint='h5' fontWeight={600} color='primary'>常用链接</Typography>
+          <Box className='flex flex-col space-y-1'>
+            {links.map(item => {
+              return (
+                <Typography key={item.url} component={Link} to={item.url}>{item.label}</Typography>
+              )
+            })}
+          </Box>
+        </Box>
+      </Box>
+    </Box>
   )
 };
 

@@ -15,7 +15,6 @@ import BackTo from '../components/Back';
 
 export default function Detail(){
   const [detail, setDetail] = useState([]);
-  console.log('detail', detail);
   const {id = ''} = useParams()
   const fetchData = useCallback(async () => {
     if(!id){
@@ -45,7 +44,6 @@ export default function Detail(){
       )
     })
     const data = await result.json();
-    console.log('result', data);
     setDetail(data.results[0].hits[0])
   },[id])
 
@@ -76,13 +74,54 @@ export default function Detail(){
 
 const Comment = ({id = ''}) => {
   console.log(id);
+  const [comments, setComments] = useState([]);
   const {client} = useArticleContext()
+  const fetchData = useCallback(async () => {
+    if(!id){
+      return 
+    }
+    const result = await fetch(`http://localhost:7700/multi-search`, {
+      method:'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization:'Bearer 123456'
+      },
+      body:JSON.stringify(
+        {
+          queries:[
+            {
+              attributesToSearchOn: ['*'],
+              attributesToHighlight:['*'],
+              highlightPostTag: "__/ais-highlight__",
+              highlightPreTag: "__ais-highlight__",
+              indexUid:'comment',
+              limit: 30,
+              offset:0,
+              q:`${id}`,
+            }
+          ]
+        }
+      )
+    })
+    const data = await result.json();
+    console.log('comment', data);
+    setComments(data.results[0].hits)
+  },[id])
+  useEffect(() => {
+    if(!id){
+      return;
+    }
+    fetchData();
+  },[id])
   return (
     <Box className='space-y-4'>
       <Box className='flex justify-between items-center'>
         <Typography variant='body1'>评论区</Typography>
         <Button size='small' component={Link} to={`/comment/${id}`}>写评论</Button>
       </Box>
+      {!comments.length ? (
+        <Divider />
+      ) : null}
       <InstantSearch
         indexName="comment"
         searchClient={client}
@@ -91,10 +130,20 @@ const Comment = ({id = ''}) => {
           hitsPerPage={20} 
         />
         <Box className='space-y-6'>
-          <InfiniteHits
-            showPrevious={false}
-            hitComponent={Hit}
-          />
+          {comments.length ? (
+            <InfiniteHits
+              showPrevious={false}
+              transformItems={(allComments) => {
+                return allComments.filter(item => item.author_id === Number(id))
+              }}
+              hitComponent={Hit}
+            />
+          ) : (
+            <Box className='flex justify-center flex-col items-center space-y-3'>
+              <Typography>暂无评论</Typography>
+              <Button size='small' component={Link} variant='contained' to={`/comment/${id}`}>写评论</Button>
+            </Box>
+          )}
         </Box>
       </InstantSearch>
     </Box>
@@ -103,17 +152,17 @@ const Comment = ({id = ''}) => {
 
 const Hit = ({ hit:item }) => {
   return (
-    <Box key={item.id} className='space-y-2 w-full'>
-      <Typography noWrap variant='h3'>{item.title}</Typography>
+    <Box key={item?.id} className='space-y-2 w-full'>
+      <Typography noWrap variant='h3'>{item?.title}</Typography>
       <Box className='w-full flex items-center justify-between'>
         <Box className='flex items-center space-x-2'>
           {item?.author_nickname ? (
             <Typography>{item?.author_nickname}</Typography>
           ) : null}
-          <Typography color='text.secondary'>{dayjs(item.created_time).format('YYYY-MM-DD HH:mm:ss')}</Typography>
+          <Typography color='text.secondary'>{dayjs(item?.created_time).format('YYYY-MM-DD HH:mm:ss')}</Typography>
         </Box>
       </Box>
-      <StyleDetail>{item.content}</StyleDetail>
+      <StyleDetail>{item?.content}</StyleDetail>
     </Box>
   )
 };

@@ -1,4 +1,4 @@
-import { createContext, useMemo, useState, useContext } from 'react';
+import { createContext, useMemo, useState, useContext, useEffect } from 'react';
 import Dialog from '@mui/material/Dialog';
 import Box from '@mui/material/Box';
 import { DialogContent, DialogTitle, Typography } from '@mui/material';
@@ -16,17 +16,28 @@ export default function WalletProvider(props) {
 	const [wallet, setWallet] = useState(null)
 	const [selectAddressOpen, setSelectAddressOpen] = useState(false)
 
-	const handleConnect = async () => {
-    if(window.injectedWeb3['polkadot-js']){
+	const enableWallet = async () => {
+		if(window.injectedWeb3['polkadot-js']){
       const wallet = window.injectedWeb3['polkadot-js']
-      console.log('wallet', wallet, wallet.accounts?.get());
       const enabledWallet = await wallet.enable();
-      const accounts = await enabledWallet.accounts.get();
-			setAddresses(accounts)
-			setSelectAddressOpen(true)
 			setWallet(enabledWallet)
-    }
+			return enabledWallet;
+		}
+	}
+
+	const handleConnect = async () => {
+		const enabledWallet = await enableWallet();
+		const accounts = await enabledWallet.accounts.get();
+		setAddresses(accounts)
+		setSelectAddressOpen(true)
   }
+
+	useEffect(() => {
+		if(!address){
+			return
+		}
+		enableWallet();
+	},[address])
 
 	const handleSelectAddress = (address) => {
 		setAddress(address);

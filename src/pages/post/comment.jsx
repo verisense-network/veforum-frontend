@@ -14,6 +14,7 @@ import {nodeKey} from '../../constants';
 import {useParams, useNavigate} from 'react-router-dom';
 import {toast} from 'react-toastify';
 import BackTo from '../components/Back';
+import { Typography } from '@mui/material';
 
 export default function Comment(){
   const {id = ''} = useParams();
@@ -21,9 +22,9 @@ export default function Comment(){
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
-      id:BigInt(id),
+      id:BigInt(0),
       content:'',
-      author_id:BigInt(0),
+      author_id:BigInt(id),
       author_nickname:'',
       article_id:BigInt(0),
       status:0,
@@ -37,8 +38,6 @@ export default function Comment(){
   });
 
   const {values} = formik;
-
-  console.log(values);
 
   const codecValue = useMemo(() => {
     const params = {
@@ -69,16 +68,15 @@ export default function Comment(){
       })
       console.log('signature', signature)
       const params = [nodeKey, 'add_comment', codecValue.slice(2)]
-      sendPost({...params, account_address: address, msg: 'message', signature})
+      //const signatureParams = {...params, account_address: address, msg: 'message', signature}
+      sendPost(params);
       return signature
     } else {
       return ''
     }
   }
   
-
   const sendPost = async (params) => {
-    const postParmas = [nodeKey, 'add_comment', codecValue.slice(2)];
     fetch('http://localhost:9944', {
       method:'POST',
       headers: {
@@ -88,7 +86,7 @@ export default function Comment(){
         "jsonrpc":"2.0", 
         "id": "whatever",
         method:'nucleus_post',
-        params: postParmas
+        params: params
       })
     }).then(resp => {
       toast.success('评论成功！')
@@ -98,7 +96,7 @@ export default function Comment(){
 
   return (
     <Container maxWidth="md" className='space-y-4'>
-      <BackTo to={`/detail/${id}`}/>
+      <BackTo to={`/detail/${id}`} currentTag={<Typography color='inherit'>发布评论</Typography>}/>
       <Box className='space-y-4'>
         {keys(values).filter(item => !['id', 'author_id', 'author_nickname', 'article_id', 'created_time', 'status', 'weight'].includes(item)).map(item => {
           return (
@@ -116,7 +114,7 @@ export default function Comment(){
             />
           )
         })}
-        <Button onClick={sendPost} variant='contained' size='large'>Comment</Button>
+        <Button onClick={signMessage} variant='contained' size='large'>发布</Button>
       </Box>
     </Container>
   )

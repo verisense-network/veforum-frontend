@@ -6,10 +6,11 @@ const theme = createTheme({
   cssVariables: true,
   palette: {
     primary: {
-      main: '#556cd6',
+      main: '#000',
     },
     secondary: {
-      main: '#19857b',
+      main: '#ff8f00',
+      contrastText: '#FFF'
     },
     error: {
       main: red.A400,
@@ -69,6 +70,13 @@ const theme = createTheme({
       styleOverrides:{
         root: {
           textTransform: 'capitalize'
+        }
+      }
+    },
+    MuiChip:{
+      styleOverrides:{
+        root: {
+          fontWegith: 600
         }
       }
     }

@@ -1,4 +1,5 @@
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import { stringToHex } from '@polkadot/util'
@@ -62,7 +63,8 @@ export default function Subspace(){
       })
       console.log('signature', signature)
       const params = [nodeKey, 'add_subspace', codecValue.slice(2)]
-      sendPost({...params, account_address: address, msg: 'message', signature})
+      //const signatureParams = {...params, account_address: address, msg: 'message', signature};
+      sendPost(params)
       return signature
     } else {
       return ''
@@ -70,8 +72,7 @@ export default function Subspace(){
   }
   
   const sendPost = async (params) => {
-    const postParmas = [nodeKey, 'add_subspace', codecValue.slice(2)];
-    const result = await fetch('http://localhost:9944', {
+    fetch('http://localhost:9944', {
       method:'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -80,7 +81,7 @@ export default function Subspace(){
         "jsonrpc":"2.0", 
         "id": "whatever",
         method:'nucleus_post',
-        params: postParmas
+        params: params
       })
     }).then(resp => {
       toast.success('创建成功！')
@@ -90,13 +91,15 @@ export default function Subspace(){
 
   return (
     <Container maxWidth="md" className='space-y-4'>
-      <BackTo to={-1}/>
+      <BackTo to={-1} currentTag={<Typography color='inherit'>创建Subspace</Typography>}/>
       <Box className='space-y-4'>
         {keys(values).filter(item => !['id', 'created_time', 'status', 'weight'].includes(item)).map(item => {
           return (
             <OutlinedInput
               key={item}
               fullWidth
+              rows={5}
+              multiline={item === 'description'}
               id={item}
               name={item}
               placeholder={item}
@@ -108,7 +111,7 @@ export default function Subspace(){
             />
           )
         })}
-        <Button onClick={sendPost} variant='contained' size='large'>Create</Button>
+        <Button onClick={signMessage} variant='contained' size='large'>创建</Button>
       </Box>
     </Container>
   )

@@ -2,7 +2,7 @@ import Box from '@mui/material/Box'
 import {useWalletContext} from '../context/WalletProvider'
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import {Link} from 'react-router-dom';
+import {Link, NavLink} from 'react-router-dom';
 import Chip from '@mui/material/Chip';
 
 
@@ -16,10 +16,9 @@ export default function Header(){
           <span className='text-lg'>Rust语言中文社区</span>
         </Box>
       </Box>
-      <Box className='flex items-center space-x-4'>
-        <Typography color='' component={Link} to='/post'>发帖</Typography>
-        <Typography color='' component={Link} to='/subspace'>创建Subspace</Typography>
-        {/* <Typography color='' component={Link} to='/post'>写笔记</Typography> */}
+      <Box className='flex items-center space-x-6'>
+        <NavLink to="/post" className={({isActive}) => isActive ? 'text-secondary font-bold' : ''}>发帖</NavLink>
+        <NavLink to="/subspace" className={({isActive}) => isActive ? 'text-secondary font-bold' : ''}>创建Subspace</NavLink>
         {address ? (
           <Chip 
             label={`${address.slice(0,5)}...${address.slice(-5)}`}

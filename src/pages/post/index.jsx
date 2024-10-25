@@ -1,5 +1,6 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { stringToHex } from '@polkadot/util'
 import {useWalletContext} from '../../context/WalletProvider';
@@ -13,6 +14,7 @@ import {useMemo} from 'react';
 import {nodeKey} from '../../constants';
 import {useNavigate} from 'react-router-dom';
 import {toast} from 'react-toastify';
+import BackTo from '../components/Back';
 
 export default function Post(){
   const {address, wallet} = useWalletContext()
@@ -69,17 +71,16 @@ export default function Post(){
       })
       console.log('signature', signature)
       const params = [nodeKey, 'add_article', codecValue.slice(2)]
-      sendPost({...params, account_address: address, msg: 'message', signature})
+      //const signatrueParams = {...params, account_address: address, msg: 'message', signature}
+      sendPost(params)
       return signature
     } else {
       return ''
     }
   }
 
-  const sendPost = async () => {
-    const postParmas = [nodeKey, 'add_article', codecValue.slice(2)];
-    console.log('values', values, postParmas)
-    const result = await fetch('http://localhost:9944', {
+  const sendPost = async (params) => {
+    fetch('http://localhost:9944', {
       method:'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -88,21 +89,23 @@ export default function Post(){
         "jsonrpc":"2.0", 
         "id": "whatever",
         method:'nucleus_post',
-        params:postParmas
+        params:params
       })
     }).then(resp => {
       toast.success('发布成功！')
       navigate(`/`)
     })
-    console.log('result', result);
   }
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="md" className='space-y-6'>
+      <BackTo currentTag={<Typography color='inherit'>发文章</Typography>}/>
       <Box className='space-y-4'>
         {keys(values).filter(item => !['id', 'author_id', 'author_nickname', 'subspace_id', 'created_time', 'updated_time', 'status', 'weight'].includes(item)).map(item => {
           return (
             <OutlinedInput
+              rows={5}
+              multiline={item === 'content'}
               key={item}
               fullWidth
               id={item}
@@ -117,7 +120,7 @@ export default function Post(){
             />
           )
         })}
-        <Button onClick={sendPost} variant='contained' size='large'>Post</Button>
+        <Button onClick={signMessage} variant='contained' size='large'>发送</Button>
       </Box>
     </Container>
   )
