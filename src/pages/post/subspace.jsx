@@ -57,7 +57,7 @@ export default function Subspace(){
         type: 'bytes',
       })
       console.log('signature', signature)
-      const params = [nodeKey, 'add_article', codecValue.slice(2)]
+      const params = [nodeKey, 'add_subspace', codecValue.slice(2)]
       sendPost({...params, account_address: address, msg: 'message', signature})
       return signature
     } else {
@@ -66,14 +66,26 @@ export default function Subspace(){
   }
   
 
-  const sendPost = (params) => {
-    // todo
-    console.log('params', params)
+  const sendPost = async (params) => {
+    const postParmas = [nodeKey, 'add_subspace', codecValue.slice(2)];
+    const result = await fetch('http://localhost:9944', {
+      method:'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body:JSON.stringify({
+        "jsonrpc":"2.0", 
+        "id": "whatever",
+        method:'nucleus_post',
+        params: postParmas
+      })
+    })
+    console.log('result', result);
   }
 
   return (
     <Box className='space-y-4'>
-      {keys(values).map(item => {
+      {keys(values).filter(item => !['id', 'created_time'].includes(item)).map(item => {
         return (
           <OutlinedInput
             key={item}
@@ -89,7 +101,7 @@ export default function Subspace(){
           />
         )
       })}
-      <Button onClick={signMessage} variant='contained' fullWidth size='large'>Sign message</Button>
+      <Button onClick={sendPost} variant='contained' fullWidth size='large'>Sign message</Button>
     </Box>
   )
 }

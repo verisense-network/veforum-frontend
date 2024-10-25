@@ -37,7 +37,7 @@ export default function Comment(){
       ...values,
       id: BigInt(values.id),
       author_id:BigInt(values.author_id),
-      article_id: BigInt(values.subspace_id),
+      article_id: BigInt(values.article_id),
       created_time: BigInt(values.created_time),
     }
     try{
@@ -60,7 +60,7 @@ export default function Comment(){
         type: 'bytes',
       })
       console.log('signature', signature)
-      const params = [nodeKey, 'add_Comment', codecValue.slice(2)]
+      const params = [nodeKey, 'add_comment', codecValue.slice(2)]
       sendPost({...params, account_address: address, msg: 'message', signature})
       return signature
     } else {
@@ -69,14 +69,26 @@ export default function Comment(){
   }
   
 
-  const sendPost = (params) => {
-    // todo
-    console.log('params', params)
+  const sendPost = async (params) => {
+    const postParmas = [nodeKey, 'add_comment', codecValue.slice(2)];
+    const result = await fetch('http://localhost:9944', {
+      method:'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body:JSON.stringify({
+        "jsonrpc":"2.0", 
+        "id": "whatever",
+        method:'nucleus_post',
+        params: postParmas
+      })
+    })
+    console.log('result', result);
   }
 
   return (
     <Box className='space-y-4'>
-      {keys(values).map(item => {
+      {keys(values).filter(item => !['id', 'author_id', 'author_nickname', 'article_id', 'created_time'].includes(item)).map(item => {
         return (
           <OutlinedInput
             key={item}
@@ -92,7 +104,7 @@ export default function Comment(){
           />
         )
       })}
-      <Button onClick={signMessage} variant='contained' fullWidth size='large'>Sign message</Button>
+      <Button onClick={sendPost} variant='contained' fullWidth size='large'>Sign message</Button>
     </Box>
   )
 }

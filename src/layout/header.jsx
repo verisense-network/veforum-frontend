@@ -7,13 +7,20 @@ import Typography from '@mui/material/Typography';
 export default function Header(){
   const {handleConnect, address, disconnected} = useWalletContext()
   return (
-    <Box className="flex justify-between item-center p-3">
-      <div>Logo and Links</div>
-      {address ? (
-        <Typography className='cursor-pointer' onClick={disconnected}>{`${address.slice(0,5)}...${address.slice(-5)}`}</Typography>
-      ) : (
-        <Button onClick={handleConnect} variant='contained' color='primary'>Connect wallet</Button>
-      )}
+    <Box className="flex justify-between items-center p-3">
+      <Box>
+        <div className='flex items-center space-x-1'>
+          <img src="https://rustcc.cn/img/rust-logo.svg" width="40px"/>
+          <span className='text-lg'>Rust语言中文社区</span>
+        </div>
+      </Box>
+      <Box>
+        {address ? (
+          <Typography className='cursor-pointer' onClick={disconnected}>{`${address.slice(0,5)}...${address.slice(-5)}`}</Typography>
+        ) : (
+          <Button onClick={handleConnect} variant='contained' color='primary'>Connect wallet</Button>
+        )}
+      </Box>
     </Box>
   )
 }

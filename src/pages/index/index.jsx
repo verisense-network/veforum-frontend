@@ -34,7 +34,7 @@ const Hit = ({ hit }) => {
   return (
     <article key={hit.id}>
       <h1>{hit.title}</h1>
-      {/* <p>{hit.genres.join(',')}</p> */}
+      <h1>{hit.title}</h1>
     </article>
   )
 };
