@@ -48,6 +48,7 @@ const Hit = ({ hit:item }) => {
         </Box>
         <Typography component={Link} color='primary' to={item?.ext_link}>{item?.ext_link}</Typography>
       </Box>
+      <Box>{item.content}</Box>
     </Box>
   )
 };

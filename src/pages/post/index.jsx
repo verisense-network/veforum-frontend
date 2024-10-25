@@ -1,5 +1,6 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
 import { stringToHex } from '@polkadot/util'
 import {useWalletContext} from '../../context/WalletProvider';
 import {useNodeContext} from '../../context/NodeProvider';
@@ -12,8 +13,6 @@ import {u8aToHex} from '@polkadot/util'
 import {useMemo} from 'react';
 import {nodeKey} from '../../constants';
 
-
-//"5FsXfPrUDqq6abYccExCTUxyzjYaaYTr5utLx2wwdBv1m8R8", "add_article", "01000000000000002441727469636c652031ac54686973206973207468652061727469636c6520312c20746869732069732061206c6f6e6720746578742e6400000000000000244d696b652054616e6701000000000000000000000000d202964900000000d202964900000000"
 export default function Post(){
   const {address, wallet} = useWalletContext()
   const {api} = useNodeContext();
@@ -96,26 +95,28 @@ export default function Post(){
   }
 
   return (
-    <Box className='space-y-4'>
-      {keys(values).filter(item => !['id', 'author_id', 'author_nickname', 'subspace_id', 'created_time', 'updated_time'].includes(item)).map(item => {
-        return (
-          <OutlinedInput
-            key={item}
-            fullWidth
-            id={item}
-            name={item}
-            color='primary'
-            placeholder={item}
-            value={formik.values[item]}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched[item] && Boolean(formik.errors[item])}
-            helperText={formik.touched[item] && formik.errors[item]}
-          />
-        )
-      })}
-      <Button onClick={sendPost} variant='contained' fullWidth size='large'>Sign message</Button>
-    </Box>
+    <Container maxWidth="md">
+      <Box className='space-y-4'>
+        {keys(values).filter(item => !['id', 'author_id', 'author_nickname', 'subspace_id', 'created_time', 'updated_time', 'status', 'weight'].includes(item)).map(item => {
+          return (
+            <OutlinedInput
+              key={item}
+              fullWidth
+              id={item}
+              name={item}
+              color='primary'
+              placeholder={item}
+              value={formik.values[item]}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched[item] && Boolean(formik.errors[item])}
+              helperText={formik.touched[item] && formik.errors[item]}
+            />
+          )
+        })}
+        <Button onClick={sendPost} variant='contained' fullWidth size='large'>Sign message</Button>
+      </Box>
+    </Container>
   )
 }
 

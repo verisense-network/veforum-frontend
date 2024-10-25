@@ -1,5 +1,6 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
 import { stringToHex } from '@polkadot/util'
 import {useWalletContext} from '../../context/WalletProvider';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -84,25 +85,27 @@ export default function Subspace(){
   }
 
   return (
-    <Box className='space-y-4'>
-      {keys(values).filter(item => !['id', 'created_time'].includes(item)).map(item => {
-        return (
-          <OutlinedInput
-            key={item}
-            fullWidth
-            id={item}
-            name={item}
-            placeholder={item}
-            value={formik.values[item]}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched[item] && Boolean(formik.errors[item])}
-            helperText={formik.touched[item] && formik.errors[item]}
-          />
-        )
-      })}
-      <Button onClick={sendPost} variant='contained' fullWidth size='large'>Sign message</Button>
-    </Box>
+    <Container maxWidth="md">
+      <Box className='space-y-4'>
+        {keys(values).filter(item => !['id', 'created_time', 'status', 'weight'].includes(item)).map(item => {
+          return (
+            <OutlinedInput
+              key={item}
+              fullWidth
+              id={item}
+              name={item}
+              placeholder={item}
+              value={formik.values[item]}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched[item] && Boolean(formik.errors[item])}
+              helperText={formik.touched[item] && formik.errors[item]}
+            />
+          )
+        })}
+        <Button onClick={sendPost} variant='contained' fullWidth size='large'>Sign message</Button>
+      </Box>
+    </Container>
   )
 }
 
