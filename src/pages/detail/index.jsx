@@ -12,6 +12,7 @@ import {useArticleContext} from '../../context/ArticlesContext';
 import {styled} from '@mui/material/styles';
 import Divider from '@mui/material/Divider';
 import BackTo from '../components/Back';
+import AddComment from '../post/comment';
 
 export default function Detail(){
   const [detail, setDetail] = useState([]);
@@ -73,9 +74,8 @@ export default function Detail(){
 }
 
 const Comment = ({id = ''}) => {
-  console.log(id);
+  const [addComment, setAddComment] = useState(false);
   const [comments, setComments] = useState([]);
-  const {client} = useArticleContext()
   const fetchData = useCallback(async () => {
     if(!id){
       return 
@@ -98,6 +98,7 @@ const Comment = ({id = ''}) => {
               limit: 30,
               offset:0,
               q:`${id}`,
+              showRankingScore: true
             }
           ]
         }
@@ -112,13 +113,19 @@ const Comment = ({id = ''}) => {
       return;
     }
     fetchData();
-  },[id])
+  },[id, addComment])
   return (
     <Box className='space-y-4'>
       <Box className='flex justify-between items-center'>
         <Typography variant='body1'>评论区</Typography>
-        <Button size='small' color='secondary' component={Link} to={`/comment/${id}`}>写评论</Button>
+        <Button size='small' color='secondary' variant='contained' onClick={() => setAddComment(true)}>写评论</Button>
       </Box>
+      {addComment ? (
+        <AddComment 
+          id={id}
+          onClose={() => setAddComment(false)}
+        />
+      ) : null}
       {!comments.length ? (
         <Divider />
       ) : null}

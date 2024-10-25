@@ -1,6 +1,5 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
 import { stringToHex } from '@polkadot/util'
 import {useWalletContext} from '../../context/WalletProvider';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -11,13 +10,11 @@ import {useMemo} from 'react';
 import {CommentSechma} from '../../constants/scaleCodec';
 import {u8aToHex} from '@polkadot/util';
 import {nodeKey} from '../../constants';
-import {useParams, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {toast} from 'react-toastify';
-import BackTo from '../components/Back';
-import { Typography } from '@mui/material';
 
-export default function Comment(){
-  const {id = ''} = useParams();
+export default function Comment(props){
+  const {id = '', onClose} = props;
   const {address, wallet} = useWalletContext();
   const navigate = useNavigate();
   const formik = useFormik({
@@ -91,17 +88,19 @@ export default function Comment(){
     }).then(resp => {
       toast.success('评论成功！')
       navigate(`/detail/${id}`)
+      onClose();
     })
   }
 
   return (
-    <Container maxWidth="md" className='space-y-4'>
-      <BackTo to={`/detail/${id}`} currentTag={<Typography color='inherit'>发布评论</Typography>}/>
+    <Box className='space-y-4'>
       <Box className='space-y-4'>
         {keys(values).filter(item => !['id', 'author_id', 'author_nickname', 'article_id', 'created_time', 'status', 'weight'].includes(item)).map(item => {
           return (
             <OutlinedInput
               key={item}
+              rows={5}
+              multiline
               fullWidth
               id={item}
               name={item}
@@ -114,9 +113,12 @@ export default function Comment(){
             />
           )
         })}
-        <Button onClick={signMessage} variant='contained' size='large'>发布</Button>
+        <Box className='flex justify-end space-x-4'>
+          <Button onClick={onClose} variant='outlined' size='small'>取消</Button>
+          <Button onClick={signMessage} variant='contained' size='small'>发布</Button>
+        </Box>
       </Box>
-    </Container>
+    </Box>
   )
 }
 
