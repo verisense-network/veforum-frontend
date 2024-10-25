@@ -30,11 +30,6 @@ export default function ArticlesProvider(props) {
 			},
 		}
 	);
-	const location = useLocation();
-
-	/* useEffect(() => {
-		window?.reload();
-	},[location.pathname]) */
 
 	const value = useMemo(() => {
 		return {
