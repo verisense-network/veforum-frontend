@@ -9,7 +9,6 @@ import {useArticleContext} from '../../context/ArticlesContext';
 import {styled} from '@mui/material/styles';
 import SubspaceList from './subspace-list';
 import {links} from '../../constants';
-import './index.css'
 
 const App = () => {
   const {client} = useArticleContext()
