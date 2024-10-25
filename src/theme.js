@@ -6,7 +6,7 @@ const theme = createTheme({
   cssVariables: true,
   palette: {
     primary: {
-      main: '#000',
+      main: '#FFF',
     },
     secondary: {
       main: '#ff8f00',
@@ -16,12 +16,13 @@ const theme = createTheme({
       main: red.A400,
     },
     text:{
-      primary: '#000',
+      primary: '#FFF',
       secondary: '#898989'
     },
+    divider: '#424646',
     background:{
-      default: '#FFF',
-      paper: '#f5f5f5'
+      default: '#111',
+      paper: '#232323'
     }
   },
   typography: {

@@ -4,6 +4,7 @@ import {useWalletContext} from '../context/WalletProvider'
 import Button from '@mui/material/Button';
 import {Link, NavLink} from 'react-router-dom';
 import Chip from '@mui/material/Chip';
+import rustLogo from '../assets/rust-logo.svg'
 
 
 export default function Header(){
@@ -12,7 +13,7 @@ export default function Header(){
     <Paper className="flex justify-between items-center p-3 px-5">
       <Box>
         <Box className='flex items-center space-x-1' component={Link} to='/'>
-          <img src="https://rustcc.cn/img/rust-logo.svg" width="40px"/>
+          <img src={rustLogo} width="40px"/>
           <span className='text-lg'>Rust语言中文社区</span>
         </Box>
       </Box>
