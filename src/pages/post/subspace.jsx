@@ -11,8 +11,9 @@ import {SubspaceSechma} from '../../constants/scaleCodec';
 import {u8aToHex} from '@polkadot/util'
 import {useMemo} from 'react';
 import {nodeKey} from '../../constants';
-import {useNavigate, useParams} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {toast} from 'react-toastify';
+import BackTo from '../components/Back';
 
 export default function Subspace(){
   const {address, wallet} = useWalletContext()
@@ -88,7 +89,8 @@ export default function Subspace(){
   }
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="md" className='space-y-4'>
+      <BackTo to={-1}/>
       <Box className='space-y-4'>
         {keys(values).filter(item => !['id', 'created_time', 'status', 'weight'].includes(item)).map(item => {
           return (

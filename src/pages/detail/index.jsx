@@ -11,6 +11,7 @@ import { InstantSearch,InfiniteHits, Configure } from 'react-instantsearch';
 import {useArticleContext} from '../../context/ArticlesContext';
 import {styled} from '@mui/material/styles';
 import Divider from '@mui/material/Divider';
+import BackTo from '../components/Back';
 
 export default function Detail(){
   const [detail, setDetail] = useState([]);
@@ -56,7 +57,7 @@ export default function Detail(){
   },[id])
   return (
     <Box className='space-y-8'>
-      <Typography component={Link} to="/" color='text.secondary'><BackIcon color='inherit' fontSize='small'/> 返回</Typography>
+      <BackTo />
       <Box className='space-y-4'>
         <Typography variant="h3">{detail.title}</Typography>
         <Box className='flex items-center space-x-2'>
@@ -65,7 +66,7 @@ export default function Detail(){
           ) : null}
           <Typography color='text.secondary'>{dayjs(detail.created_time).format('YYYY-MM-DD HH:mm:ss')}</Typography>
         </Box>
-        <Typography variant="h3">{detail.content}</Typography>
+        <Typography variant="body1">{detail.content}</Typography>
       </Box>
       <Divider/>
       <Comment id={id}/>

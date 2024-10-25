@@ -13,6 +13,7 @@ import {u8aToHex} from '@polkadot/util';
 import {nodeKey} from '../../constants';
 import {useParams, useNavigate} from 'react-router-dom';
 import {toast} from 'react-toastify';
+import BackTo from '../components/Back';
 
 export default function Comment(){
   const {id = ''} = useParams();
@@ -96,7 +97,8 @@ export default function Comment(){
   }
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="md" className='space-y-4'>
+      <BackTo to={`/detail/${id}`}/>
       <Box className='space-y-4'>
         {keys(values).filter(item => !['id', 'author_id', 'author_nickname', 'article_id', 'created_time', 'status', 'weight'].includes(item)).map(item => {
           return (
