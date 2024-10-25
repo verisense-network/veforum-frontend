@@ -1,4 +1,3 @@
-import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
@@ -7,17 +6,29 @@ import theme from './theme.js'
 import { ThemeProvider } from '@mui/material';
 import { BrowserRouter } from 'react-router-dom';
 import ArticlesProvider from './context/ArticlesContext.jsx';
+/* import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; */
+import * as buffer from 'buffer';
+
+
+if (typeof window?.global === 'undefined') {
+	window.global = window;
+}
+if (typeof window.Buffer === 'undefined') {
+	window.Buffer = buffer.Buffer;
+}
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <BrowserRouter>
-      <ThemeProvider theme={theme}>
+  <BrowserRouter>
+    <ThemeProvider theme={theme}>
+      {/* <ToastContainer> */}
         <WalletProvider>
           <ArticlesProvider>
             <App />
           </ArticlesProvider>
         </WalletProvider>
-      </ThemeProvider>
-    </BrowserRouter>
-  </StrictMode>,
+      {/* </ToastContainer> */}
+    </ThemeProvider>
+  </BrowserRouter>
+  ,
 )

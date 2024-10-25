@@ -11,9 +11,13 @@ import {SubspaceSechma} from '../../constants/scaleCodec';
 import {u8aToHex} from '@polkadot/util'
 import {useMemo} from 'react';
 import {nodeKey} from '../../constants';
+import {useNavigate, useParams} from 'react-router-dom';
+import {toast} from 'react-toastify';
 
 export default function Subspace(){
   const {address, wallet} = useWalletContext()
+  const {id= '' } = useParams();
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       id:BigInt(0),
@@ -30,13 +34,12 @@ export default function Subspace(){
       console.log(values);
     },
   });
-
   const {values} = formik;
   const codecValue = useMemo(() => {
     const params = {
       ...values,
       id: BigInt(values.id),
-      created_time: BigInt(values.created_time),
+      created_time: BigInt(Date.now()),
     }
     try{
       const decodeValue = u8aToHex(SubspaceSechma.encode(params))
@@ -66,7 +69,6 @@ export default function Subspace(){
     }
   }
   
-
   const sendPost = async (params) => {
     const postParmas = [nodeKey, 'add_subspace', codecValue.slice(2)];
     const result = await fetch('http://localhost:9944', {
@@ -80,8 +82,10 @@ export default function Subspace(){
         method:'nucleus_post',
         params: postParmas
       })
+    }).then(resp => {
+      toast.success('评论成功！')
+      navigate(`/detail/${id}`)
     })
-    console.log('result', result);
   }
 
   return (

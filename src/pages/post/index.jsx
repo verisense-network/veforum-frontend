@@ -3,7 +3,6 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import { stringToHex } from '@polkadot/util'
 import {useWalletContext} from '../../context/WalletProvider';
-import {useNodeContext} from '../../context/NodeProvider';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -12,11 +11,12 @@ import {ArticleSechma} from '../../constants/scaleCodec';
 import {u8aToHex} from '@polkadot/util'
 import {useMemo} from 'react';
 import {nodeKey} from '../../constants';
+import {useNavigate} from 'react-router-dom';
+import {toast} from 'react-toastify';
 
 export default function Post(){
   const {address, wallet} = useWalletContext()
-  const {api} = useNodeContext();
-  console.log('api',api)
+  const navigate = useNavigate()
   const formik = useFormik({
     initialValues: {
       'id':BigInt(1),
@@ -90,6 +90,9 @@ export default function Post(){
         method:'nucleus_post',
         params:postParmas
       })
+    }).then(resp => {
+      toast.success('发布成功！')
+      navigate(`/`)
     })
     console.log('result', result);
   }

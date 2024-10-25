@@ -11,12 +11,16 @@ import {useMemo} from 'react';
 import {CommentSechma} from '../../constants/scaleCodec';
 import {u8aToHex} from '@polkadot/util';
 import {nodeKey} from '../../constants';
+import {useParams, useNavigate} from 'react-router-dom';
+import {toast} from 'react-toastify';
 
 export default function Comment(){
-  const {address, wallet} = useWalletContext()
+  const {id = ''} = useParams();
+  const {address, wallet} = useWalletContext();
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
-      id:BigInt(0),
+      id:BigInt(id),
       content:'',
       author_id:BigInt(0),
       author_nickname:'',
@@ -33,13 +37,15 @@ export default function Comment(){
 
   const {values} = formik;
 
+  console.log(values);
+
   const codecValue = useMemo(() => {
     const params = {
       ...values,
       id: BigInt(values.id),
       author_id:BigInt(values.author_id),
       article_id: BigInt(values.article_id),
-      created_time: BigInt(values.created_time),
+      created_time: BigInt(Date.now()),
     }
     try{
       const decodeValue = u8aToHex(CommentSechma.encode(params))
@@ -72,7 +78,7 @@ export default function Comment(){
 
   const sendPost = async (params) => {
     const postParmas = [nodeKey, 'add_comment', codecValue.slice(2)];
-    const result = await fetch('http://localhost:9944', {
+    fetch('http://localhost:9944', {
       method:'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -83,8 +89,10 @@ export default function Comment(){
         method:'nucleus_post',
         params: postParmas
       })
+    }).then(resp => {
+      toast.success('评论成功！')
+      navigate(`/detail/${id}`)
     })
-    console.log('result', result);
   }
 
   return (
@@ -106,7 +114,7 @@ export default function Comment(){
             />
           )
         })}
-        <Button onClick={sendPost} variant='contained' fullWidth size='large'>Sign message</Button>
+        <Button onClick={sendPost} variant='contained' size='large'>Comment</Button>
       </Box>
     </Container>
   )
