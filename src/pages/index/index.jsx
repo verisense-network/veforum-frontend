@@ -67,7 +67,7 @@ const Hit = ({ hit:item }) => {
           {item?.author_nickname ? (
             <Typography>{item?.author_nickname}</Typography>
           ) : null}
-          <Typography color='text.secondary'>{dayjs(item.created_time).format('YYYY-MM-DD HH:mm:ss')}</Typography>
+          <Typography color='text.secondary'>{dayjs(Number(item.created_time)*1000).format('YYYY-MM-DD HH:mm:ss')}</Typography>
           {subspaceItem ? (
             <Chip label={subspaceItem.title} color='primary' size="small"/>
           ) : null}

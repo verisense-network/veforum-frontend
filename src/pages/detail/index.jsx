@@ -63,7 +63,7 @@ export default function Detail(){
           {detail?.author_nickname ? (
             <Typography>{detail?.author_nickname}</Typography>
           ) : null}
-          <Typography color='text.secondary'>{dayjs(detail.created_time).format('YYYY-MM-DD HH:mm:ss')}</Typography>
+          <Typography color='text.secondary'>{dayjs(Number(detail.created_time)*1000).format('YYYY-MM-DD HH:mm:ss')}</Typography>
         </Box>
         <Typography variant="body1">{detail?.content}</Typography>
       </Box>

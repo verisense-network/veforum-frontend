@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import {toast} from 'react-toastify';
 import BackTo from '../components/Back';
 import Loading from '@mui/material/CircularProgress';
+import dayjs from 'dayjs';
 
 
 export default function Subspace(){
@@ -43,7 +44,7 @@ export default function Subspace(){
     const params = {
       ...values,
       id: BigInt(values.id),
-      created_time: BigInt(Date.now()),
+      created_time: BigInt(dayjs().unix()),
     }
     try{
       const decodeValue = u8aToHex(SubspaceSechma.encode(params))

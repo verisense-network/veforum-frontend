@@ -13,6 +13,7 @@ import {nodeKey} from '../../constants';
 import {useNavigate} from 'react-router-dom';
 import {toast} from 'react-toastify';
 import Loading from '@mui/material/CircularProgress';
+import dayjs from 'dayjs';
 
 export default function Comment(props){
   const {id = '', onClose, refresh} = props;
@@ -44,7 +45,7 @@ export default function Comment(props){
       id: BigInt(values.id),
       author_id:BigInt(values.author_id),
       article_id: BigInt(values.article_id),
-      created_time: BigInt(Date.now()),
+      created_time: BigInt(dayjs().unix()),
     }
     try{
       const decodeValue = u8aToHex(CommentSechma.encode(params))

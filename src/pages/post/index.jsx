@@ -20,6 +20,8 @@ import {useArticleContext} from '../../context/ArticlesContext';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
+import dayjs from 'dayjs';
+
 
 export default function Post(){
   const {address, wallet} = useWalletContext()
@@ -54,8 +56,8 @@ export default function Post(){
       id: BigInt(values.id),
       'author_id':BigInt(values.author_id),
       subspace_id: BigInt(values.subspace_id),
-      created_time: BigInt(Date.now()),
-      updated_time: BigInt(Date.now()),
+      created_time: BigInt(dayjs().unix()),
+      updated_time: BigInt(dayjs().unix()),
     }
     try{
       const decodeValue = u8aToHex(ArticleSechma.encode(params))
