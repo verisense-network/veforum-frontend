@@ -106,7 +106,7 @@ const Comment = ({id = ''}) => {
     })
     const data = await result.json();
     console.log('comment', data);
-    setComments(data.results[0].hits?.filter(comment => comment.article_id === Number(id)))
+    setComments(data.results[0].hits?.filter(comment => comment.article_id === Number(id).reverse()))
   },[id])
   useEffect(() => {
     if(!id){
