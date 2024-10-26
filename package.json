@@ -32,6 +32,7 @@
     "react-instantsearch": "^7.13.3",
     "react-router-dom": "^6.27.0",
     "react-toastify": "^10.0.6",
+    "react-use": "^17.5.1",
     "scale-codec": "^0.13.0",
     "styled-components": "^6.1.13",
     "yup": "^1.4.0"

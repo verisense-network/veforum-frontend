@@ -1,8 +1,7 @@
 import { createContext, useMemo, useContext, useCallback, useState, useEffect } from 'react';
-import { ApiPromise, WsProvider, HttpProvider } from '@polkadot/api'
 import { instantMeiliSearch } from '@meilisearch/instant-meilisearch';
-import { liteClient as algoliasearch } from 'algoliasearch/lite';
-import {useLocation} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom'; 
+import {useInterval } from 'react-use'
 
 export const ArticlesContext = createContext({
 	client: null
@@ -31,6 +30,7 @@ export default function ArticlesProvider(props) {
 		}
 	);
 	const location = useLocation();
+	const navigate = useNavigate();
 
 	const fetchData = useCallback(async () => {
     const result = await fetch(`http://localhost:7700/multi-search`, {
@@ -63,6 +63,11 @@ export default function ArticlesProvider(props) {
   useEffect(() => {
     fetchData();
   },[location.pathname])
+
+	useInterval(() => {
+		navigate('/')
+	},location.pathname === '/' ? 3000 : null)
+
 
 	const value = useMemo(() => {
 		return {
