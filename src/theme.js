@@ -23,6 +23,11 @@ const theme = createTheme({
     background:{
       default: '#111',
       paper: '#232323'
+    },
+    action:{
+      disabled: '#000',
+      disabledOpacity:60,
+      disabledBackground:'#959595'
     }
   },
   typography: {

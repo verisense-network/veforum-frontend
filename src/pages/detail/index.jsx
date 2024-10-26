@@ -124,6 +124,7 @@ const Comment = ({id = ''}) => {
         <AddComment 
           id={id}
           onClose={() => setAddComment(false)}
+          refresh={fetchData}
         />
       ) : null}
       {!comments.length ? (

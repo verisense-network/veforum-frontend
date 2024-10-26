@@ -6,15 +6,17 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import {keys} from 'lodash'
-import {useMemo} from 'react';
+import {useMemo, useState} from 'react';
 import {CommentSechma} from '../../constants/scaleCodec';
 import {u8aToHex} from '@polkadot/util';
 import {nodeKey} from '../../constants';
 import {useNavigate} from 'react-router-dom';
 import {toast} from 'react-toastify';
+import Loading from '@mui/material/CircularProgress';
 
 export default function Comment(props){
-  const {id = '', onClose} = props;
+  const {id = '', onClose, refresh} = props;
+  const [loading, setLoading] = useState(false)
   const {address, wallet} = useWalletContext();
   const navigate = useNavigate();
   const formik = useFormik({
@@ -55,6 +57,7 @@ export default function Comment(props){
   console.log('codec value', codecValue)
 
   const signMessage = async () => {
+    setLoading(true)
     const signRaw = wallet.signer?.signRaw;
     console.log('sign message', signRaw)
     if (signRaw) {
@@ -86,9 +89,13 @@ export default function Comment(props){
         params: params
       })
     }).then(resp => {
-      toast.success('评论成功！')
-      navigate(`/detail/${id}`)
-      onClose();
+      setTimeout(() => {
+        setLoading(false)
+        toast.success('评论成功！')
+        navigate(`/detail/${id}`)
+        refresh();
+        onClose();
+      },3000)
     })
   }
 
@@ -115,7 +122,13 @@ export default function Comment(props){
         })}
         <Box className='flex justify-end space-x-4'>
           <Button onClick={onClose} variant='outlined' size='small'>取消</Button>
-          <Button onClick={signMessage} variant='contained' size='small'>发布</Button>
+          <Button 
+            onClick={signMessage} 
+            variant='contained' 
+            size='small' 
+            endIcon={loading ? <Loading color='inherit' fontSize='inherit' size={16}/> : null}
+            disabled={!values.content || loading}
+          >发布</Button>
         </Box>
       </Box>
     </Box>
