@@ -90,7 +90,7 @@ const Comment = ({id = ''}) => {
         {
           queries:[
             {
-              attributesToSearchOn: ['*'],
+              attributesToSearchOn: ['article_id'],
               attributesToHighlight:['*'],
               highlightPostTag: "__/ais-highlight__",
               highlightPreTag: "__ais-highlight__",

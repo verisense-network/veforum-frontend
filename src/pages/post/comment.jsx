@@ -23,9 +23,9 @@ export default function Comment(props){
     initialValues: {
       id:BigInt(0),
       content:'',
-      author_id:BigInt(id),
+      author_id:BigInt(0),
       author_nickname:'',
-      article_id:BigInt(0),
+      article_id:BigInt(id),
       status:0,
       weight:0,
       created_time:BigInt(0),
