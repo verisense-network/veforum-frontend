@@ -35,7 +35,7 @@ export default function Post(){
       'content':'',
       'author_id':BigInt(2),
       'author_nickname':'lindawu',
-      'subspace_id':BigInt(12),
+      'subspace_id':BigInt(1),
       'ext_link':'',
       'status':Number(0),
       'weight':Number(0),
