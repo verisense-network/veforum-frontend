@@ -38,7 +38,7 @@ const App = () => {
       </Box>
       <Box className='space-y-6'>
         <Box className='space-y-4'>
-          <Typography varaint='h5' fontWeight={600} color='primary'>Classes</Typography>
+          <Typography varaint='h5' fontWeight={600} color='primary'>Subspace</Typography>
           <SubspaceList />
         </Box>
         <Box className='space-y-4'>
