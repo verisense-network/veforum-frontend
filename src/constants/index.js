@@ -81,15 +81,15 @@ export const helpfuls = [
 
 export const powerBy = [
   {
-    label: 'Forustm',
+    label: 'Verisense',
     url: 'https://github.com/daogangtang/forustm'
   },
   {
-    label: 'Rusoda',
+    label: 'VeForum',
     url: 'https://github.com/daogangtang/rusoda'
   },
   {
-    label: 'Sapper',
+    label: 'FHE.org',
     url: 'https://github.com/sappworks/sapper'
   },
 ]

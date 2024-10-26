@@ -38,11 +38,11 @@ const App = () => {
       </Box>
       <Box className='space-y-6'>
         <Box className='space-y-4'>
-          <Typography varaint='h5' fontWeight={600} color='primary'>板块分类</Typography>
+          <Typography varaint='h5' fontWeight={600} color='primary'>Classes</Typography>
           <SubspaceList />
         </Box>
         <Box className='space-y-4'>
-          <Typography varaint='h5' fontWeight={600} color='primary'>常用链接</Typography>
+          <Typography varaint='h5' fontWeight={600} color='primary'>Links</Typography>
           <Box className='flex flex-col space-y-1'>
             {links.map(item => {
               return (

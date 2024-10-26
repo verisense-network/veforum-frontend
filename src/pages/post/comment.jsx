@@ -121,14 +121,14 @@ export default function Comment(props){
           )
         })}
         <Box className='flex justify-end space-x-4'>
-          <Button onClick={onClose} variant='outlined' size='small'>取消</Button>
+          <Button onClick={onClose} variant='outlined' size='small'>Cancel</Button>
           <Button 
             onClick={signMessage} 
             variant='contained' 
             size='small' 
             endIcon={loading ? <Loading color='inherit' fontSize='inherit' size={16}/> : null}
             disabled={!values.content || loading}
-          >发布</Button>
+          >Post</Button>
         </Box>
       </Box>
     </Box>

@@ -37,7 +37,7 @@ export default function Footer(){
             })
           }
         </Box>
-        <Typography color='text.secondary' className="text-center">©2016~2020 Rust.cc 版权所有  蜀ICP备20010673号-1</Typography>
+        <Typography color='text.secondary' className="text-center">©2016~2024 Rust.cc 版权所有  蜀ICP备20010673号-1</Typography>
       </Container>
     </Paper>
   )

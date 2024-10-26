@@ -9,7 +9,7 @@ export default function BackTo(props){
   return (
     <Typography component={Link} to={to} color='text.secondary' className='flex items-center space-x-1 text-sm'>
       <BackIcon color='inherit' fontSize='small'/>
-      <Box className='flex items-center space-x-1'><span>当前位置：</span>{currentTag}</Box>
+      <Box className='flex items-center space-x-1'><span>Current:</span>{currentTag}</Box>
     </Typography>
   )
 }

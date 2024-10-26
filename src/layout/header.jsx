@@ -14,12 +14,12 @@ export default function Header(){
       <Box>
         <Box className='flex items-center space-x-1' component={Link} to='/'>
           <img src={rustLogo} width="40px"/>
-          <span className='text-lg'>Rust语言中文社区</span>
+          <span className='text-lg'>RustCC Community</span>
         </Box>
       </Box>
       <Box className='flex items-center space-x-6'>
-        <NavLink to="/post" className={({isActive}) => isActive ? 'text-secondary font-bold hover:text-secondary' : 'hover:text-secondary'}>发帖</NavLink>
-        <NavLink to="/subspace" className={({isActive}) => isActive ? 'text-secondary font-bold hover:text-secondary' : 'hover:text-secondary'}>创建Subspace</NavLink>
+        <NavLink to="/post" className={({isActive}) => isActive ? 'text-secondary font-bold hover:text-secondary' : 'hover:text-secondary'}>Post</NavLink>
+        <NavLink to="/subspace" className={({isActive}) => isActive ? 'text-secondary font-bold hover:text-secondary' : 'hover:text-secondary'}>Create Subspace</NavLink>
         {address ? (
           <Chip 
             label={`${address.slice(0,5)}...${address.slice(-5)}`}

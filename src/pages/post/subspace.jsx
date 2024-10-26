@@ -99,7 +99,7 @@ export default function Subspace(){
 
   return (
     <Container maxWidth="md" className='space-y-4'>
-      <BackTo to={-1} currentTag={<Typography color='inherit'>创建Subspace</Typography>}/>
+      <BackTo to={-1} currentTag={<Typography color='inherit'>Create Subspace</Typography>}/>
       <Box className='space-y-4'>
         {keys(values).filter(item => !['id', 'created_time', 'status', 'weight'].includes(item)).map(item => {
           return (
@@ -125,7 +125,7 @@ export default function Subspace(){
           size='large'
           endIcon={loading ? <Loading color='inherit' fontSize='inherit' size={16}/> : null}
           disabled={!values.title || loading}
-        >创建</Button>
+        >Create</Button>
       </Box>
     </Container>
   )

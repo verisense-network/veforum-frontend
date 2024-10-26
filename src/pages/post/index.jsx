@@ -111,7 +111,7 @@ export default function Post(){
 
   return (
     <Container maxWidth="md" className='space-y-6'>
-      <BackTo currentTag={<Typography color='inherit'>发文章</Typography>}/>
+      <BackTo currentTag={<Typography color='inherit'>Post</Typography>}/>
       <Box className='space-y-4'>
         <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
           <Select
@@ -157,7 +157,7 @@ export default function Post(){
           size='large'
           endIcon={loading ? <Loading color='inherit' fontSize='inherit' size={16}/> : null}
           disabled={!values.content || !values.title || loading}
-        >发送</Button>
+        >Post</Button>
       </Box>
     </Container>
   )

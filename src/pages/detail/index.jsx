@@ -117,8 +117,8 @@ const Comment = ({id = ''}) => {
   return (
     <Box className='space-y-4'>
       <Box className='flex justify-between items-center'>
-        <Typography variant='body1'>评论区</Typography>
-        <Button size='small' color='secondary' variant='contained' onClick={() => setAddComment(true)}>写评论</Button>
+        <Typography variant='body1'>Comments</Typography>
+        <Button size='small' color='secondary' variant='contained' onClick={() => setAddComment(true)}>Comment</Button>
       </Box>
       {addComment ? (
         <AddComment 
@@ -138,8 +138,8 @@ const Comment = ({id = ''}) => {
     
         ) : (
           <Box className='flex justify-center flex-col items-center space-y-3'>
-            <Typography>暂无评论</Typography>
-            <Button size='small' variant='contained' onClick={() => setAddComment(true)}>写评论</Button>
+            <Typography>No Comments</Typography>
+            <Button size='small' variant='contained' onClick={() => setAddComment(true)}>Comment</Button>
           </Box>
         )}
       </Box>
