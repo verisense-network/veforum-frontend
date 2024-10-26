@@ -10,6 +10,7 @@ import {styled} from '@mui/material/styles';
 import SubspaceList from './subspace-list';
 import {links} from '../../constants';
 import './index.css'
+import Chip from '@mui/material/Chip';
 
 const App = () => {
   const {client} = useArticleContext()
@@ -56,6 +57,8 @@ const App = () => {
 };
 
 const Hit = ({ hit:item }) => {
+  const {subspaceList} = useArticleContext();
+  const subspaceItem = subspaceList.find(subspace => subspace.id === item?.subspace_id)
   return (
     <Box key={item?.id} className='space-y-2 w-full' component={Link} to={`/detail/${item.id}`}>
       <Typography noWrap variant='h4' fontWeight={600}>{item.title}</Typography>
@@ -65,6 +68,9 @@ const Hit = ({ hit:item }) => {
             <Typography>{item?.author_nickname}</Typography>
           ) : null}
           <Typography color='text.secondary'>{dayjs(item.created_time).format('YYYY-MM-DD HH:mm:ss')}</Typography>
+          {subspaceItem ? (
+            <Chip label={subspaceItem.title} color='primary' size="small"/>
+          ) : null}
         </Box>
         <Typography component={Link} color='secondary' to={item?.ext_link}>{item?.ext_link}</Typography>
       </Box>
