@@ -10,14 +10,17 @@ import * as yup from 'yup';
 import {keys} from 'lodash'
 import {SubspaceSechma} from '../../constants/scaleCodec';
 import {u8aToHex} from '@polkadot/util'
-import {useMemo} from 'react';
+import {useMemo, useState} from 'react';
 import {nodeKey} from '../../constants';
 import { useNavigate } from 'react-router-dom';
 import {toast} from 'react-toastify';
 import BackTo from '../components/Back';
+import Loading from '@mui/material/CircularProgress';
+
 
 export default function Subspace(){
   const {address, wallet} = useWalletContext()
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
@@ -53,6 +56,7 @@ export default function Subspace(){
   console.log('codec value', codecValue)
 
   const signMessage = async () => {
+    setLoading(true)
     const signRaw = wallet.signer?.signRaw;
     console.log('sign message', signRaw)
     if (signRaw) {
@@ -84,8 +88,11 @@ export default function Subspace(){
         params: params
       })
     }).then(resp => {
-      toast.success('创建成功！')
-      navigate(`/`)
+      setTimeout(() => {
+        setLoading(false)
+        toast.success('创建成功！')
+        navigate(`/`)
+      },3000)
     })
   }
 
@@ -111,7 +118,13 @@ export default function Subspace(){
             />
           )
         })}
-        <Button onClick={signMessage} variant='contained' size='large'>创建</Button>
+        <Button 
+          onClick={signMessage} 
+          variant='contained' 
+          size='large'
+          endIcon={loading ? <Loading color='inherit' fontSize='inherit' size={16}/> : null}
+          disabled={!values.title || loading}
+        >创建</Button>
       </Box>
     </Container>
   )

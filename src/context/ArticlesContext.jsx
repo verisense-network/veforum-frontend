@@ -4,7 +4,6 @@ import { instantMeiliSearch } from '@meilisearch/instant-meilisearch';
 import { liteClient as algoliasearch } from 'algoliasearch/lite';
 import {useLocation} from 'react-router-dom';
 
-
 export const ArticlesContext = createContext({
 	client: null
 });
@@ -21,6 +20,7 @@ export const meiliSearchParamsProps = {
 
 
 export default function ArticlesProvider(props) {
+	const [subspaceList, setSubspaceList] = useState([])
 	const { searchClient, setMeiliSearchParams } = instantMeiliSearch(
 		'http://localhost:7700',
 		'123456',
@@ -30,15 +30,50 @@ export default function ArticlesProvider(props) {
 			},
 		}
 	);
+	const location = useLocation();
+
+	const fetchData = useCallback(async () => {
+    const result = await fetch(`http://localhost:7700/multi-search`, {
+      method:'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization:'Bearer 123456'
+      },
+      body:JSON.stringify(
+        {
+          queries:[
+            {
+              attributesToSearchOn: ['*'],
+              attributesToHighlight:['*'],
+              highlightPostTag: "__/ais-highlight__",
+              highlightPreTag: "__ais-highlight__",
+              indexUid:'subspace',
+              limit: 50,
+              offset:0,
+            }
+          ]
+        }
+      )
+    })
+    const data = await result.json();
+    setSubspaceList(data.results[0].hits)
+  },[])
+
+
+  useEffect(() => {
+    fetchData();
+  },[location.pathname])
 
 	const value = useMemo(() => {
 		return {
 			client: searchClient,
-			setMeiliSearchParams
+			setMeiliSearchParams,
+			subspaceList
 		};
 	}, [
 		searchClient,
-		setMeiliSearchParams
+		setMeiliSearchParams,
+		subspaceList
 	]);
 
 	return (

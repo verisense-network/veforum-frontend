@@ -59,7 +59,6 @@ export default function Comment(props){
   const signMessage = async () => {
     setLoading(true)
     const signRaw = wallet.signer?.signRaw;
-    console.log('sign message', signRaw)
     if (signRaw) {
       const { signature } = await signRaw({
         address: address,

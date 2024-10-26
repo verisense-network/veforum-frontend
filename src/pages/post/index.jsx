@@ -10,15 +10,22 @@ import * as yup from 'yup';
 import {keys} from 'lodash'
 import {ArticleSechma} from '../../constants/scaleCodec';
 import {u8aToHex} from '@polkadot/util'
-import {useMemo} from 'react';
+import {useMemo, useState} from 'react';
 import {nodeKey} from '../../constants';
 import {useNavigate} from 'react-router-dom';
 import {toast} from 'react-toastify';
 import BackTo from '../components/Back';
+import Loading from '@mui/material/CircularProgress';
+import {useArticleContext} from '../../context/ArticlesContext';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
 
 export default function Post(){
   const {address, wallet} = useWalletContext()
+  const {subspaceList = []} = useArticleContext();
   const navigate = useNavigate()
+  const [loading, setLoading] = useState(false)
   const formik = useFormik({
     initialValues: {
       'id':BigInt(1),
@@ -26,7 +33,7 @@ export default function Post(){
       'content':'',
       'author_id':BigInt(2),
       'author_nickname':'lindawu',
-      'subspace_id':BigInt(3),
+      'subspace_id':BigInt(12),
       'ext_link':'',
       'status':Number(0),
       'weight':Number(0),
@@ -39,7 +46,7 @@ export default function Post(){
     },
   });
 
-  const {values} = formik;
+  const {values, setFieldValue} = formik;
 
   const codecValue = useMemo(() => {
     const params = {
@@ -61,8 +68,8 @@ export default function Post(){
   console.log('codec value', codecValue, codecValue.slice(2), JSON.stringify([nodeKey, 'add_article', codecValue.slice(2)]))
 
   const signMessage = async () => {
+    setLoading(true)
     const signRaw = wallet.signer?.signRaw;
-    console.log('sign message', signRaw)
     if (signRaw) {
       const { signature } = await signRaw({
         address: address,
@@ -92,8 +99,11 @@ export default function Post(){
         params:params
       })
     }).then(resp => {
-      toast.success('发布成功！')
-      navigate(`/`)
+      setTimeout(() => {
+        setLoading(false)
+        toast.success('发布成功！')
+        navigate(`/`)
+      },5000)
     })
   }
 
@@ -101,10 +111,29 @@ export default function Post(){
     <Container maxWidth="md" className='space-y-6'>
       <BackTo currentTag={<Typography color='inherit'>发文章</Typography>}/>
       <Box className='space-y-4'>
+        <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+          <Select
+            labelId="demo-select-small-label"
+            id="demo-select-small"
+            value={formik.values.subspace_id}
+            onChange={(e) => {
+              setFieldValue('subspace_id', BigInt(e.target.value))
+            }}
+            onBlur={formik.handleBlur}
+            error={formik.touched.subspace_id && Boolean(formik.errors.subspace_id)}
+            helperText={formik.touched.subspace_id && formik.errors.subspace_id}
+          >
+            {subspaceList.map(item => {
+              return (
+                <MenuItem key={item.id} value={item.id}>{item.title}</MenuItem>
+              )
+            })}
+          </Select>
+        </FormControl>
         {keys(values).filter(item => !['id', 'author_id', 'author_nickname', 'subspace_id', 'created_time', 'updated_time', 'status', 'weight'].includes(item)).map(item => {
           return (
             <OutlinedInput
-              rows={5}
+              rows={15}
               multiline={item === 'content'}
               key={item}
               fullWidth
@@ -120,7 +149,13 @@ export default function Post(){
             />
           )
         })}
-        <Button onClick={signMessage} variant='contained' size='large'>发送</Button>
+        <Button 
+          onClick={signMessage} 
+          variant='contained' 
+          size='large'
+          endIcon={loading ? <Loading color='inherit' fontSize='inherit' size={16}/> : null}
+          disabled={!values.content || !values.title || loading}
+        >发送</Button>
       </Box>
     </Container>
   )
