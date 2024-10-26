@@ -31,7 +31,7 @@ export default function Detail(){
         {
           queries:[
             {
-              attributesToSearchOn: ['*'],
+              attributesToSearchOn: ['id'],
               attributesToHighlight:['*'],
               highlightPostTag: "__/ais-highlight__",
               highlightPreTag: "__ais-highlight__",
@@ -45,7 +45,7 @@ export default function Detail(){
       )
     })
     const data = await result.json();
-    setDetail(data.results[0].hits?.find(item => item.id === Number[id]))
+    setDetail(data.results[0].hits?.find(item => item.id === Number(id)))
   },[id])
 
   useEffect(() => {
@@ -58,14 +58,14 @@ export default function Detail(){
     <Box className='space-y-8'>
       <BackTo />
       <Box className='space-y-4'>
-        <Typography variant="h3">{detail.title}</Typography>
+        <Typography variant="h3">{detail?.title}</Typography>
         <Box className='flex items-center space-x-2'>
           {detail?.author_nickname ? (
             <Typography>{detail?.author_nickname}</Typography>
           ) : null}
           <Typography color='text.secondary'>{dayjs(detail.created_time).format('YYYY-MM-DD HH:mm:ss')}</Typography>
         </Box>
-        <Typography variant="body1">{detail.content}</Typography>
+        <Typography variant="body1">{detail?.content}</Typography>
       </Box>
       <Divider/>
       <Comment id={id}/>
@@ -90,7 +90,7 @@ const Comment = ({id = ''}) => {
         {
           queries:[
             {
-              attributesToSearchOn: ['id'],
+              attributesToSearchOn: ['*'],
               attributesToHighlight:['*'],
               highlightPostTag: "__/ais-highlight__",
               highlightPreTag: "__ais-highlight__",
