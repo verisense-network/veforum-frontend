@@ -45,7 +45,7 @@ export default function Detail(){
       )
     })
     const data = await result.json();
-    setDetail(data.results[0].hits[0])
+    setDetail(data.results[0].hits?.find(item => item.id === Number[id]))
   },[id])
 
   useEffect(() => {
