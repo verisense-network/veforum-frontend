@@ -13,6 +13,7 @@ import {styled} from '@mui/material/styles';
 import Divider from '@mui/material/Divider';
 import BackTo from '../components/Back';
 import AddComment from '../post/comment';
+import {searchHost, searchEndpoint, searchSecret} from "../../constants";
 
 export default function Detail(){
   const [detail, setDetail] = useState([]);
@@ -21,11 +22,11 @@ export default function Detail(){
     if(!id){
       return 
     }
-    const result = await fetch(`http://localhost:7700/multi-search`, {
+    const result = await fetch(searchEndpoint, {
       method:'POST',
       headers: {
         'Content-Type': 'application/json',
-        authorization:'Bearer 123456'
+        authorization:'Bearer ' + searchSecret
       },
       body:JSON.stringify(
         {
@@ -80,11 +81,11 @@ const Comment = ({id = ''}) => {
     if(!id){
       return 
     }
-    const result = await fetch(`http://localhost:7700/multi-search`, {
+    const result = await fetch(searchEndpoint, {
       method:'POST',
       headers: {
         'Content-Type': 'application/json',
-        authorization:'Bearer 123456'
+        authorization:'Bearer ' + searchSecret
       },
       body:JSON.stringify(
         {

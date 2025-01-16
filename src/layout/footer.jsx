@@ -12,7 +12,7 @@ export default function Footer(){
       <Container maxWidht="lg" className='space-y-4'>
         <Box className='flex items-center space-x-3 justify-center'>
           {
-            [{label: '友情链接:',url:''}, ...partners].map(item => {
+            [{label: 'Partners:',url:''}, ...partners].map(item => {
               return (
                 <Typography className={`${item.url ? 'hover:text-secondary' : ''}`} component={item.url ? Link : 'inherit'} to={item.url ? item.url : ''}>{item.label}</Typography>
               )
@@ -21,7 +21,7 @@ export default function Footer(){
         </Box>
         <Box className='flex items-center space-x-3 justify-center'>
           {
-            [{label: '鸣谢:',url:''}, ...helpfuls].map(item => {
+            [{label: 'Acknowledgements:',url:''}, ...helpfuls].map(item => {
               return (
                 <Typography className={`${item.url ? 'hover:text-secondary' : ''}`} component={item.url ? Link : 'inherit'} to={item.url ? item.url : ''}>{item.label}</Typography>
               )
@@ -37,7 +37,7 @@ export default function Footer(){
             })
           }
         </Box>
-        <Typography color='text.secondary' className="text-center">©2016~2024 Rust.cc 版权所有  蜀ICP备20010673号-1</Typography>
+        <Typography color='text.secondary' className="text-center">©2016~2024 Rust.cc Copyright Reserved</Typography>
       </Container>
     </Paper>
   )

@@ -2,6 +2,7 @@ import { createContext, useMemo, useContext, useCallback, useState, useEffect } 
 import { instantMeiliSearch } from '@meilisearch/instant-meilisearch';
 import {useLocation, useNavigate} from 'react-router-dom'; 
 import {useInterval } from 'react-use'
+import {searchHost, searchEndpoint, searchSecret} from "../constants";
 
 export const ArticlesContext = createContext({
 	client: null
@@ -21,8 +22,8 @@ export const meiliSearchParamsProps = {
 export default function ArticlesProvider(props) {
 	const [subspaceList, setSubspaceList] = useState([])
 	const { searchClient, setMeiliSearchParams } = instantMeiliSearch(
-		'http://localhost:7700',
-		'123456',
+		searchHost,
+		searchSecret,
 		{
 			meiliSearchParams: {
 				...meiliSearchParamsProps
@@ -33,11 +34,11 @@ export default function ArticlesProvider(props) {
 	const navigate = useNavigate();
 
 	const fetchData = useCallback(async () => {
-    const result = await fetch(`http://localhost:7700/multi-search`, {
+    const result = await fetch(searchEndpoint, {
       method:'POST',
       headers: {
         'Content-Type': 'application/json',
-        authorization:'Bearer 123456'
+        authorization:'Bearer ' + searchSecret
       },
       body:JSON.stringify(
         {

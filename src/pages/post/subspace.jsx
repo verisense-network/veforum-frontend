@@ -2,14 +2,14 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import { stringToHex } from '@polkadot/util'
 import {useWalletContext} from '../../context/WalletProvider';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import {keys} from 'lodash'
 import {SubspaceSechma} from '../../constants/scaleCodec';
-import {u8aToHex} from '@polkadot/util'
+import * as $ from "scale-codec";
+import {stringToHex, u8aToHex, hexToU8a} from '@polkadot/util'
 import {useMemo, useState} from 'react';
 import {nodeKey} from '../../constants';
 import { useNavigate } from 'react-router-dom';
@@ -17,6 +17,7 @@ import {toast} from 'react-toastify';
 import BackTo from '../components/Back';
 import Loading from '@mui/material/CircularProgress';
 import dayjs from 'dayjs';
+import {rpcHost} from '../../constants';
 
 
 export default function Subspace(){
@@ -59,16 +60,28 @@ export default function Subspace(){
   const signMessage = async () => {
     setLoading(true)
     const signRaw = wallet.signer?.signRaw;
+    const msg = stringToHex('message');
     console.log('sign message', signRaw)
     if (signRaw) {
       const { signature } = await signRaw({
         address: address,
-        data: stringToHex('message'),
+        data: msg,
         type: 'bytes',
       })
       console.log('signature', signature)
-      const params = [nodeKey, 'add_subspace', codecValue.slice(2)]
-      //const signatureParams = {...params, account_address: address, msg: 'message', signature};
+
+      const account_encoded = u8aToHex($.str.encode(address)).slice(2)
+      // console.log('account_encoded', account_encoded)
+      const msg_encoded = u8aToHex($.uint8Array.encode(hexToU8a(msg))).slice(2)
+      // console.log('msg_encoded', msg_encoded)
+      const signature_encoded = u8aToHex($.str.encode(signature.slice(2))).slice(2)
+      // console.log('signature_encoded', signature_encoded)
+      const params_hex = codecValue.slice(2) + account_encoded + msg_encoded + signature_encoded
+      // console.log('params_hex', params_hex)
+
+      const params = [nodeKey, 'add_subspace', params_hex]
+
+      // const params = [nodeKey, 'add_subspace', codecValue.slice(2)]
       sendPost(params)
       return signature
     } else {
@@ -77,7 +90,7 @@ export default function Subspace(){
   }
   
   const sendPost = async (params) => {
-    fetch('http://localhost:9944', {
+    fetch(rpcHost, {
       method:'POST',
       headers: {
         'Content-Type': 'application/json'

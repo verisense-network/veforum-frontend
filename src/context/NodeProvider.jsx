@@ -1,6 +1,6 @@
 import { createContext, useMemo, useContext, useCallback, useState, useEffect } from 'react';
 import { ApiPromise, WsProvider, HttpProvider } from '@polkadot/api'
-
+import { rpcHost } from "../constants";
 
 export const NodeContext = createContext({
 	connectedNode:null
@@ -52,7 +52,7 @@ export default function NodeProvider(props) {
 		if(connectedNode){
 			return;
 		}
-		connectWs('http://localhost:9944')
+		connectWs(rpcHost)
 	},[connectedNode])
 
 	const value = useMemo(() => {

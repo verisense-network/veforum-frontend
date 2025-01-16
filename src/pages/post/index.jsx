@@ -2,14 +2,14 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { stringToHex } from '@polkadot/util'
 import {useWalletContext} from '../../context/WalletProvider';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import {keys} from 'lodash'
 import {ArticleSechma} from '../../constants/scaleCodec';
-import {u8aToHex} from '@polkadot/util'
+import * as $ from "scale-codec";
+import {stringToHex, u8aToHex, hexToU8a} from '@polkadot/util'
 import {useMemo, useState} from 'react';
 import {nodeKey} from '../../constants';
 import {useNavigate} from 'react-router-dom';
@@ -21,20 +21,23 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import dayjs from 'dayjs';
+import {rpcHost} from '../../constants';
 
 
 export default function Post(){
-  const {address, wallet} = useWalletContext()
+  const {address, wallet, addressInfo} = useWalletContext()
   const {subspaceList = []} = useArticleContext();
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
+  console.log('==> address', address, addressInfo);
+
   const formik = useFormik({
     initialValues: {
       'id':BigInt(1),
       'title':'',
       'content':'',
       'author_id':BigInt(2),
-      'author_nickname':'lindawu',
+      'author_nickname': addressInfo.name,
       'subspace_id':BigInt(1),
       'ext_link':'',
       'status':Number(0),
@@ -72,14 +75,29 @@ export default function Post(){
   const signMessage = async () => {
     setLoading(true)
     const signRaw = wallet.signer?.signRaw;
+    const msg = stringToHex('message');
     if (signRaw) {
       const { signature } = await signRaw({
         address: address,
-        data: stringToHex('message'),
+        data: msg,
         type: 'bytes',
       })
       console.log('signature', signature)
-      const params = [nodeKey, 'add_article', codecValue.slice(2)]
+      // console.log('msg', msg)
+      // console.log('hexToU8a msg', hexToU8a(msg))
+      console.log('address', address)
+
+      const account_encoded = u8aToHex($.str.encode(address)).slice(2)
+      // console.log('account_encoded', account_encoded)
+      const msg_encoded = u8aToHex($.uint8Array.encode(hexToU8a(msg))).slice(2)
+      // console.log('msg_encoded', msg_encoded)
+      const signature_encoded = u8aToHex($.str.encode(signature.slice(2))).slice(2)
+      // console.log('signature_encoded', signature_encoded)
+      const params_hex = codecValue.slice(2) + account_encoded + msg_encoded + signature_encoded
+      // console.log('params_hex', params_hex)
+
+      const params = [nodeKey, 'add_article', params_hex]
+
       //const signatrueParams = {...params, account_address: address, msg: 'message', signature}
       sendPost(params)
       return signature
@@ -89,7 +107,7 @@ export default function Post(){
   }
 
   const sendPost = async (params) => {
-    fetch('http://localhost:9944', {
+    fetch(rpcHost, {
       method:'POST',
       headers: {
         'Content-Type': 'application/json'
